@@ -1,52 +1,41 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: almatsch <almatsch@student.42heilbronn.    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/20 20:50:51 by almatsch          #+#    #+#              #
-#    Updated: 2025/03/30 22:33:22 by almatsch         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME = fractol
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I./minilibx-linux/include
-LDFLAGS = -ldl -pthread -lm
+CFLAGS = -Wall -Werror -Wextra -I/usr/include/minilibx-linux
+MLX_FLAGS = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 -lm
+MAKEFLAGS += --no-print-directory
+SRC = main.c fractals.c key_events.c init_program.c error_handling.c color.c
+OBJ_DIR = ./obj
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+NAME = fractol
 
-SRCS = main.c utils.c key_hooks.c fractal.c
-OBJS = $(SRCS:.c=.o)
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
 
-LIBFT = libft/libft.a
-MLX42 = ./minilibx-linux/mlx.a
+all: $(NAME) libft
 
-MLX_FLAGS = -L./MLX42/build -lmlx42 -lglfw -lm -ldl -lX11 -lXrandr -lXi -lXxf86vm -lXcursor -lpthread
-all: $(NAME)
+$(NAME): libft $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX_FLAGS) $(LIBFT_FLAGS)
 
-$(NAME): $(MLX42) $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+libft:
+	@$(MAKE) -C $(LIBFT_DIR)
+	@if [ ! -f $(LIBFT) ]; then echo "Error: libft.a not found in $(LIBFT_DIR)"; exit 1; fi
 
-$(MLX42):
-	chmod +x ./minilibx-linux/configure
-	make -C ./minilibx-linux
+$(OBJ_DIR)/%.o: %.c fract_ol.h
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I./MLX42/include -c $< -o $@
+clean: clean_libft
+	rm -rf $(OBJ_DIR)
 
-$(LIBFT):
-	make -C libft
+fclean: clean fclean_libft
+	rm -rf $(NAME)
 
-clean:
-	make -C libft clean
-	make -C ./minilibx-linux clean
-	rm -f $(OBJS)
+clean_libft:
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean: clean
-	make -C libft fclean
-	make -C ./minilibx-linux clean
-	rm -f $(NAME)
+fclean_libft:
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all re clean fclean clean_libft fclean_libft libft
