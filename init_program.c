@@ -5,31 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 00:42:40 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/04/07 13:20:38 by ozemrani         ###   ########.fr       */
+/*   Created: 2025/04/10 21:38:58 by ozemrani          #+#    #+#             */
+/*   Updated: 2025/04/10 23:33:56 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
-/*
-** ft_init_fractal
-** ---------------
-** Initializes the fractal structure with default values.
-*/
+
 void	ft_init_fractal(t_fractal *fractal)
 {
 	fractal->shift_x = 0.0;
 	fractal->shift_y = 0.0;
 	fractal->zoom = 1.0;
 	fractal->max_iter = MAX_ITER;
-	fractal->julia_re = -0.512511498387847167;
-	fractal->julia_im = 0.521295573094847167;
 }
-/*
-** ft_init_graphics_struct
-** -----------------------
-** Initializes the graphics structure with NULL values.
-*/
+
 static void	ft_init_graphics_struct(t_graphics *graphics)
 {
 	graphics->mlx = NULL;
@@ -41,13 +31,7 @@ static void	ft_init_graphics_struct(t_graphics *graphics)
 	graphics->endian = 0;
 	graphics->fractal = NULL;
 }
-/*
-** ft_free_graphics
-** ----------------
-** intiliaze the graphics structure with the MLX connection, window, image
-** and the data address for the image
-** also set graphics->fractal pointer to the fractal structure.
-*/
+
 void	ft_init_graphics(t_graphics *graphics, t_fractal *fractal)
 {
 	ft_init_graphics_struct(graphics);
@@ -78,17 +62,20 @@ void	ft_init_graphics(t_graphics *graphics, t_fractal *fractal)
 
 void	ft_input_handling(int argc, char **argv, t_fractal *fractal)
 {
-	if (argc != 2)
-	{
-		ft_putendl_fd("Usage: ./fractol <fractal_name>", 2);
-		ft_putendl_fd("Available fractals: mandelbrot, julia", 2);
-		exit(EXIT_FAILURE);
-	}
 	fractal->name = argv[1];
-	if (ft_strcmp(fractal->name, "mandelbrot") && ft_strcmp(fractal->name,
-			"julia"))
+	if (!(ft_strcmp(fractal->name, "julia")))
 	{
-		ft_putendl_fd("Available fractals: mandelbrot, julia", 2);
+		if (!(ft_isdouble(argv[2])) || !(ft_isdouble(argv[3])) || argc != 4)
+		{
+			ft_putendl_fd("Usage: ./fractol julia -0.8 0.156", 2);
+			exit(EXIT_FAILURE);
+		}
+		fractal->julia_re = atod(argv[2]);
+		fractal->julia_im = atod(argv[3]);
+	}
+	else if (!ft_strcmp(fractal->name, "mandelbrot") && argc != 2)
+	{
+		ft_putendl_fd("Usage: ./fractol mandelbrot", 2);
 		exit(EXIT_FAILURE);
 	}
 }
