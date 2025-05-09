@@ -53,7 +53,7 @@ Ensure that you have the required dependencies installed on your system:
      ```
    - Julia Set:
      ```bash
-     ./fractol julia
+     ./fractol julia -0.8 0.156
      ```
 
 4. Interact with the fractal:
