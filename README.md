@@ -73,9 +73,3 @@ Ensure that you have the required dependencies installed on your system:
 ## 🛠️ Development
 
 This project was developed as part of the curriculum at **42 School**. It serves as an introduction to graphical programming, focusing on mathematical visualizations and user interaction.
-
-## 📄 License
-
-This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-For any questions or contributions, feel free to open an issue or submit a pull request!
