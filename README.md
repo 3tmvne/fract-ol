@@ -67,7 +67,6 @@ Ensure that you have the required dependencies installed on your system:
 |---------------------------|----------------------------------|
 | Zoom In/Out              | Mouse Scroll                    |
 | Navigate Fractal Space   | Arrow Keys                      |
-| Adjust Julia Parameters  | Mouse Movement (Julia Set only) |
 | Exit the Program          | ESC Key or Close Window         |
 
 ## 🛠️ Development
