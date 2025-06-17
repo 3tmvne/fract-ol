@@ -40,7 +40,7 @@ Ensure that you have the required dependencies installed on your system:
 1. Clone the repository:
    ```bash
    git clone https://github.com/3tmvne/fractol.git
-   cd fractol
+   cd fract-ol
    ```
 
 2. Build the project using `make`:
