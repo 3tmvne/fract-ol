@@ -2,6 +2,8 @@
 
 **Fract-ol** is a project from the 42 curriculum designed to introduce students to the fundamentals of graphics programming through the rendering of mathematical fractals using the **MiniLibX** library.
 
+![Fractal Example](./julia.png)
+
 ## 📌 Objective
 
 The primary goal of this project is to generate and display fractal sets, specifically:
